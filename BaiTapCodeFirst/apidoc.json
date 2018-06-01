@@ -1,0 +1,9 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "apiDoc":{
+	"title": "Example project document",
+	"url" : "https://localhost:8899/api"
+  }  
+}

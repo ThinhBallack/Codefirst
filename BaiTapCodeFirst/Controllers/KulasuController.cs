@@ -17,6 +17,48 @@ namespace BaiTapCodeFirst.Controllers
             this._db = new YuriSentaa();
         }
 
+        
+        /**
+         * @api {Post} /Kulasu/CreateKulasu ...tạo một Kulasu mới
+         * @apigroup KUALSU ...định nghĩa api thuộc nhóm nào, nên có /optional
+         * @apiPermission none ...nếu không có nghĩa là permission none. /optional
+         * @apiVersion 1.0.0
+         * 
+         * @apiParam {string} Koudo Mã của kulasu mới
+         * @apiParam {string} Namae Tên của lớp mới
+         * @apiParam {double} [JugyouRyou] học phí của lớp, optional
+         * @apiParam {int} [GakuseiSuo] sĩ số của lớ optional
+         * 
+         *@apiParamExample {json} Request-Example:
+         * {
+         *  Koudo: "D12CQCN01",
+         *  Namae: "Công nghệ thông tin 1"
+         *}
+         * 
+         * @apiSuccess  {string} Koudo ...Mã của Kulasu vừa mới tạo
+         * @apiSuccess {string} Namae ...Tên của Kulasu mới tạo
+         * @apiSuccess {long} Id ...Id của Kulasu mới tạo
+         * 
+         * @apiSuccessExample {json} Reponse:
+         * {
+         *  Id :1,
+         *  Koudo: "D12CQCN01",
+         *  Namae: "Công nghệ thông tin 1"
+         * }
+         * 
+         * 
+         * @apiError {string[]} Errors ...mảng các lỗi
+         * 
+         * @apiErrorExample: {json}
+         * {
+         *  "Errors": [
+         *      "Koudo của Kulasu là bắt buộc phải có.",
+         *      "Namae của Kulasu là bắt buộc phải có."
+         *  ]
+         * }
+         * 
+         */
+
         [HttpPost]
         public IHttpActionResult CreateKulasu(CreateKulasuModel model)
         {
