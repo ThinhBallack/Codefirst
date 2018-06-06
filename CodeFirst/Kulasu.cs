@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,12 @@ namespace CodeFirst
         {
             get; set;
         }
+        [InverseProperty("Tannins")]    
         public ICollection<Koushi> Koushi
         {
             get; set;
         }
+        [InverseProperty("SenseiKoudo")]
         public ICollection<GakuseiKulasu> Gakusei
         {
             get; set;
