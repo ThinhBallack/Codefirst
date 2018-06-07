@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Autofac;
+using Autofac.Integration.WebApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
+using System.Reflection;
 using System.Web.Http;
+using BaiTapCodeFirst.Modules;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
 
 namespace BaiTapCodeFirst
 {
@@ -25,6 +27,12 @@ namespace BaiTapCodeFirst
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
+            builder.RegisterModule(new EFModules());
+
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(builder.Build());
         }
     }
 }

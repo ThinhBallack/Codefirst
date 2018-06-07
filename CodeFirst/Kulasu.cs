@@ -13,6 +13,7 @@ namespace CodeFirst
         public string Namae { get; set; } //tenlop
         public double JugyouRyou { get; set; } //hocphi
         public int GakuseiSuo { get; set; } //si so
+        [InverseProperty("Tannins")]
         public virtual Koushi Tannin  //quan he ben Mot
         {
             get; set;

@@ -17,6 +17,63 @@ namespace BaiTapCodeFirst.Controllers
             this._db = new YuriSentaa();
         }
 
+        /**
+        * @api {Post} /Kulasu/CreateGakusei ...tạo một học sinh mới
+        * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
+        * @apiPermission none ...nếu không có nghĩa là permission none. /optional
+        * @apiVersion 1.0.0
+        * 
+        * @apiParam {string} Namae ...Tên của học sinh mới tạo
+        * @apiParam  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
+        * @apiParam  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
+        * @apiParam  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
+        * @apiParam {long} Id ...Id của học sinh mới tạo
+        * @apiParam {string} GakuseiKoudo ...Mã học sinh
+        * 
+        *@apiParamExample {json} Request-Example:
+        * {
+        *  Id :1,
+        *  Namae: "Tèo Thị Ngân",
+        *  Seibetsu: "Nữ",
+        *  Tanjoubi: 2/12/1992,
+        *  Juusho: "Đảng Cộng sản bán nước",
+        *  GakuseiKoudo: "1511HFG12"
+        *}
+        * 
+        * 
+        * @apiSuccess {string} Namae ...Tên của học sinh mới tạo
+        * @apiSuccess  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
+        * @apiSuccess  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
+        * @apiSuccess  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
+        * @apiSuccess {long} Id ...Id của học sinh mới tạo
+        * @apiSuccess {string} GakuseiKoudo ...Mã học sinh
+        * 
+        * @apiSuccessExample {json} Reponse:
+        * {
+        *  Id :1,
+        *  Namae: "Tèo Thị Ngân",
+        *  Seibetsu: "Nữ",
+        *  Tanjoubi: 2/12/1992,
+        *  Juusho: "Đảng Cộng sản bán nước",
+        *  GakuseiKoudo: "1511HFG12"
+        *  
+        * }
+        * 
+        * 
+        * @apiError {string[]} Errors ...mảng các lỗi
+        * 
+        * @apiErrorExample: {json}
+        * {
+        *  "Errors": [
+        *      "Namae của học sinh bắt buộc phải có.",
+        *      "Seibetsu của học sinh là bắt buộc phải có.",
+        *      "Tanjoubi của học sinh là bắt buộc phải có.",
+        *      "Juusho của học sinh là bắt buộc phải có.",
+        *      "GakuseiKoudo của học sinh là bắt buộc phải có."
+        *  ]
+        * }
+        * 
+        */
         [HttpPost]
         public IHttpActionResult CreateGakusei(CreateGakuseiModel model)
         {
@@ -57,6 +114,63 @@ namespace BaiTapCodeFirst.Controllers
 
             return httpActionResult;
         }
+        /**
+        * @api {Put} /Kulasu/UpdateGakusei ...cập nhật học sinh
+        * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
+        * @apiPermission none ...nếu không có nghĩa là permission none. /optional
+        * @apiVersion 1.0.0
+        * 
+        * @apiParam {string} Namae ...Tên của học sinh mới tạo
+        * @apiParam  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
+        * @apiParam  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
+        * @apiParam  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
+        * @apiParam {long} Id ...Id của học sinh mới tạo
+        * @apiParam {string} GakuseiKoudo ...Mã học sinh
+        * 
+        *@apiParamExample {json} Request-Example:
+        * {
+        *  Id :1,
+        *  Namae: "Tèo Thị Ngân",
+        *  Seibetsu: "Nữ",
+        *  Tanjoubi: 2/12/1992,
+        *  Juusho: "Đảng Cộng sản bán nước",
+        *  GakuseiKoudo: "1511HFG12"
+        *}
+        * 
+        * 
+        * @apiSuccess {string} Namae ...Tên của học sinh mới tạo
+        * @apiSuccess  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
+        * @apiSuccess  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
+        * @apiSuccess  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
+        * @apiSuccess {long} Id ...Id của học sinh mới tạo
+        * @apiSuccess {string} GakuseiKoudo ...Mã học sinh
+        * 
+        * @apiSuccessExample {json} Reponse:
+        * {
+        *  Id :1,
+        *  Namae: "Tèo Thị Ngân",
+        *  Seibetsu: "Nữ",
+        *  Tanjoubi: 2/12/1992,
+        *  Juusho: "Đảng Cộng sản bán nước",
+        *  GakuseiKoudo: "1511HFG12"
+        *  
+        * }
+        * 
+        * 
+        * @apiError {string[]} Errors ...mảng các lỗi
+        * 
+        * @apiErrorExample: {json}
+        * {
+        *  "Errors": [
+        *      "Namae của học sinh bắt buộc phải có.",
+        *      "Seibetsu của học sinh là bắt buộc phải có.",
+        *      "Tanjoubi của học sinh là bắt buộc phải có.",
+        *      "Juusho của học sinh là bắt buộc phải có.",
+        *      "GakuseiKoudo của học sinh là bắt buộc phải có."
+        *  ]
+        * }
+        * 
+        */
         [HttpPut]
         public IHttpActionResult UpdateGakusei(UpdateGakuseiModel model)
         {
