@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CodeFirst;
 using BaiTapCodeFirst.ViewModels;
+using BaiTapCodeFirst.Infrastructure;
 
 namespace BaiTapCodeFirst.Controllers
 {
@@ -18,7 +19,7 @@ namespace BaiTapCodeFirst.Controllers
         }
 
         /**
-        * @api {Post} /Kulasu/CreateGakusei ...tạo một học sinh mới
+        * @api {Post} /Gakusei/CreateGakusei ...tạo một học sinh mới
         * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
         * @apiPermission none ...nếu không có nghĩa là permission none. /optional
         * @apiVersion 1.0.0
@@ -27,12 +28,10 @@ namespace BaiTapCodeFirst.Controllers
         * @apiParam  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
         * @apiParam  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
         * @apiParam  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
-        * @apiParam {long} Id ...Id của học sinh mới tạo
         * @apiParam {string} GakuseiKoudo ...Mã học sinh
         * 
         *@apiParamExample {json} Request-Example:
         * {
-        *  Id :1,
         *  Namae: "Tèo Thị Ngân",
         *  Seibetsu: "Nữ",
         *  Tanjoubi: 2/12/1992,
@@ -60,7 +59,7 @@ namespace BaiTapCodeFirst.Controllers
         * }
         * 
         * 
-        * @apiError {string[]} Errors ...mảng các lỗi
+        * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
         * 
         * @apiErrorExample: {json}
         * {
@@ -109,23 +108,23 @@ namespace BaiTapCodeFirst.Controllers
             }
             else
             {
-                httpActionResult = Ok(errors);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, errors);
             }
 
             return httpActionResult;
         }
         /**
-        * @api {Put} /Kulasu/UpdateGakusei ...cập nhật học sinh
+        * @api {Put} /Gakusei/UpdateGakusei ...cập nhật học sinh
         * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
         * @apiPermission none ...nếu không có nghĩa là permission none. /optional
         * @apiVersion 1.0.0
         * 
         * @apiParam {string} Namae ...Tên của học sinh mới tạo
-        * @apiParam  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
-        * @apiParam  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
-        * @apiParam  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
+        * @apiParam {string} [Seibetsu] ...Giới tính của học sinh vừa mới tạo
+        * @apiParam {DateTime} [Tanjoubi] ...Ngày sinh của học sinh vừa mới tạo
+        * @apiParam {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
         * @apiParam {long} Id ...Id của học sinh mới tạo
-        * @apiParam {string} GakuseiKoudo ...Mã học sinh
+        * @apiParam {string} [GakuseiKoudo] ...Mã học sinh
         * 
         *@apiParamExample {json} Request-Example:
         * {
@@ -138,12 +137,12 @@ namespace BaiTapCodeFirst.Controllers
         *}
         * 
         * 
-        * @apiSuccess {string} Namae ...Tên của học sinh mới tạo
-        * @apiSuccess  {string} Seibetsu ...Giới tính của học sinh vừa mới tạo
-        * @apiSuccess  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới tạo
-        * @apiSuccess  {string} Juusho ...Địa chỉ của học sinh vừa mới tạo
-        * @apiSuccess {long} Id ...Id của học sinh mới tạo
-        * @apiSuccess {string} GakuseiKoudo ...Mã học sinh
+        * @apiSuccess {string} Namae ...Tên của học sinh mới cập nhật
+        * @apiSuccess  {string} Seibetsu ...Giới tính của học sinh vừa mới cập nhật
+        * @apiSuccess  {DateTime} Tanjoubi ...Ngày sinh của học sinh vừa mới cập nhật
+        * @apiSuccess  {string} Juusho ...Địa chỉ của học sinh vừa mới cập nhật
+        * @apiSuccess {long} Id ...Id của học sinh cần được được cập nhật
+        * @apiSuccess {string} GakuseiKoudo ...Mã học sinh vừa mới cập nhật
         * 
         * @apiSuccessExample {json} Reponse:
         * {
@@ -151,13 +150,13 @@ namespace BaiTapCodeFirst.Controllers
         *  Namae: "Tèo Thị Ngân",
         *  Seibetsu: "Nữ",
         *  Tanjoubi: 2/12/1992,
-        *  Juusho: "Đảng Cộng sản bán nước",
+        *  Juusho: "mất mẹ nước rồi còn đâu địa chỉ mà ghi",
         *  GakuseiKoudo: "1511HFG12"
         *  
         * }
         * 
         * 
-        * @apiError {string[]} Errors ...mảng các lỗi
+        * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
         * 
         * @apiErrorExample: {json}
         * {
@@ -183,7 +182,7 @@ namespace BaiTapCodeFirst.Controllers
             {
                 errors.Add("Không tìm thấy học sinh");
 
-                httpActionResult = Ok(errors);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, errors);
             }
             else
             {
@@ -207,7 +206,43 @@ namespace BaiTapCodeFirst.Controllers
 
             return httpActionResult;
         }
-
+        /**
+         * @api {Get} /Gakusei/GetAll ... lấy tất cả sinh viên
+         * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
+         * @apiPermission none ...nếu không có nghĩa là permission none. /optional
+         * @apiVersion 1.0.0
+         * 
+         * 
+         * 
+         * @apiSuccess  {string} GakuseiKoudo ...Mã của sinh viên
+         * @apiSuccess {string} Namae ...Tên của sinh viên
+         * @apiSuccess {long} Id ...Id của sinh viên 
+         * @apiSuccess {string} Seibetsu ...giới tính của sinh viên
+         * @apiSuccess {DateTime} Tanjoubi ... ngày sinh
+         * @apiSuccess {string} Juusho ... địa chỉ của sinh viên
+         * 
+         * @apiSuccessExample {json} Reponse:
+         * {
+         *  Id :1,
+         *  GakuseiKoudo: "D12CQCN01",
+         *  Namae: "Trọng lú bán nước",
+         *  Seibetsu: "Súc sinh",
+         *  Tanjoubi: 12/2/1987,
+         *  Juusho: "chuồng chó trung cộng"
+         * }
+         * 
+         * 
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
+         * 
+         * @apiErrorExample: {json}
+         * {
+         *  "Errors": [
+         *      "Không có gì cả."
+         *      "Something was wrong."
+         *  ]
+         * }
+         * 
+         */
         [HttpGet]
         public IHttpActionResult GetAll()
         {
@@ -223,6 +258,48 @@ namespace BaiTapCodeFirst.Controllers
 
             return Ok(listGakusei);
         }
+        /**
+         * @api {Get} /Gakusei/GetById/:id ... lấy sinh viên theo id
+         * @apigroup GAKUSEI ...định nghĩa api thuộc nhóm nào, nên có /optional
+         * @apiPermission none ...nếu không có nghĩa là permission none. /optional
+         * @apiVersion 1.0.0
+         * 
+         * @apiParam {long} id ...ID của sinh viên cần lấy ra
+         * 
+         * @apiParamExample {json} Request-Example:
+         * {
+         *  Id :1
+         *}
+         * 
+         * @apiSuccess {string} GakuseiKoudo ...Mã của sinh viên
+         * @apiSuccess {string} Namae ...Tên của sinh viên
+         * @apiSuccess {long} Id ...Id của sinh viên 
+         * @apiSuccess {string} Seibetsu ...giới tính của sinh viên
+         * @apiSuccess {DateTime} Tanjoubi ... ngày sinh
+         * @apiSuccess {string} Juusho ... địa chỉ của sinh viên
+         * 
+         * @apiSuccessExample {json} Reponse:
+         * {
+         *  Id :1,
+         *  GakuseiKoudo: "D12CQCN01",
+         *  Namae: "Trọng lú bán nước",
+         *  Seibetsu: "Súc sinh",
+         *  Tanjoubi: 12/2/1987,
+         *  Juusho: "chuồng chó trung cộng"
+         * }
+         * 
+         * 
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
+         * 
+         * @apiErrorExample: {json}
+         * {
+         *  "Errors": [
+         *      "Không có gì cả."
+         *      "Something was wrong."
+         *  ]
+         * }
+         * 
+         */
         [HttpGet]
         public IHttpActionResult GetById(long id)
         {
@@ -234,7 +311,7 @@ namespace BaiTapCodeFirst.Controllers
                 ErrorModel errors = new ErrorModel();
                 errors.Add("Không tìm thấy học sinh");
 
-                httpActionResult = Ok(errors);
+                httpActionResult = new ErrorActionResult(Request, System.Net.HttpStatusCode.BadRequest, errors);
             }
             else
             {

@@ -18,7 +18,7 @@ namespace BaiTapCodeFirst.Controllers
             this._db = new YuriSentaa();
         }
 
-        
+
         /**
          * @api {Post} /Kulasu/CreateKulasu ...tạo một Kulasu mới
          * @apigroup KUALSU ...định nghĩa api thuộc nhóm nào, nên có /optional
@@ -48,7 +48,7 @@ namespace BaiTapCodeFirst.Controllers
          * }
          * 
          * 
-         * @apiError {string[]} Errors ...mảng các lỗi
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
          * 
          * @apiErrorExample: {json}
          * {
@@ -105,39 +105,44 @@ namespace BaiTapCodeFirst.Controllers
          * @apiPermission none ...nếu không có nghĩa là permission none. /optional
          * @apiVersion 1.0.0
          * 
-         * @apiParam {string} Koudo Mã của kulasu mới
-         * @apiParam {string} Namae Tên của lớp mới
-         * @apiParam {double} [JugyouRyou] học phí của lớp, optional
-         * @apiParam {int} [GakuseiSuo] sĩ số của lớ optional
+         * @apiParam {long} id Id của lớp cần sửa
+         * @apiParam {string} [Koudo] Mã của lớp cấn sửa /optional
+         * @apiParam {string} [Namae] Tên của lớp cần sửa /optional
+         * @apiParam {double} [JugyouRyou] học phí của lớp cần sửa /optional
+         * @apiParam {int} [GakuseiSuo] sĩ số của lớp /optional
          * 
          *@apiParamExample {json} Request-Example:
          * {
+         *  Id: 2,
          *  Koudo: "D12CQCN01",
-         *  Namae: "Công nghệ thông tin 1"
+         *  Namae: "Công nghệ thông tin 1",
+         *  JugyouRyou: 5000000,
+         *  GakuseiSuo: 20
          *}
          * 
-         * @apiSuccess  {string} Koudo ...Mã của Kulasu vừa mới tạo
-         * @apiSuccess {string} Namae ...Tên của Kulasu mới tạo
-         * @apiSuccess {double} JugyouRyou ... Học phí của một Kulasu
+         * @apiSuccess  {string} Koudo ...Mã của Kulasu vừa mới cập nhật
+         * @apiSuccess {string} Namae ...Tên của Kulasu mới cập nhật
+         * @apiSuccess {double} JugyouRyou ... Học phí của một lớp vừa mới cập nhật
+         * @apiSuccess {int} GakuseiSuo ... Sĩ số của lớp vừa mới được cập nhật
          * 
          * @apiSuccessExample {json} Reponse:
          * {
          *  Id :1,
          *  Koudo: "D12CQCN01",
          *  Namae: "Công nghệ thông tin 1",
-         *  JugyouRyou: 5000000
+         *  JugyouRyou: 5000000,
+         *  GakuseiSuo: 30
          * }
          * 
          * 
-         * @apiError {string[]} Errors ...mảng các lỗi
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
          * 
          * @apiErrorExample: {json}
          * {
          *  "Errors": [
-         *      "Koudo của Kulasu là bắt buộc phải có.",
-         *      "Namae của Kulasu là bắt buộc phải có.",
-         *      "JugyouRyou phải được cập nhật"
-         *  ]
+         *      "Id của Kulasu là bắt buộc phải có.",
+         *
+         *]
          * }
          * 
          */
@@ -202,7 +207,7 @@ namespace BaiTapCodeFirst.Controllers
          * }
          * 
          * 
-         * @apiError {string[]} Errors ...mảng các lỗi
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
          * 
          * @apiErrorExample: {json}
          * {
@@ -228,7 +233,7 @@ namespace BaiTapCodeFirst.Controllers
             return Ok(listKulasu);
         }
         /**
-         * @api {Get} /Kulasu/Get/:id ... lấy tất cả danh sách lớp
+         * @api {Get} /Kulasu/GetById/:id ... lấy ra lớp theo id
          * @apigroup KUALSU ...định nghĩa api thuộc nhóm nào, nên có /optional
          * @apiPermission none ...nếu không có nghĩa là permission none. /optional
          * @apiVersion 1.0.0
@@ -251,7 +256,7 @@ namespace BaiTapCodeFirst.Controllers
          * }
          * 
          * 
-         * @apiError {string[]} Errors ...mảng các lỗi
+         * @apiError (Error 400) {string[]} Errors ...mảng các lỗi
          * 
          * @apiErrorExample: {json}
          * {
